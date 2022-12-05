@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+This is your cart page.
+<br>
+proceed to review your items and place the order.
+{% endblock %}
+{% block title %}
+    <h3>Cart - webzcart &trade; pvt ltd &#169; All rights reserved.</h3>
+{% endblock %}
+{% block content %}
+{% if not cart_items %}
+<div>
+    <div class="text-center">
+        <br>
+        <h1 class="text-center my-title">Your Cart is empty</h1>
+        <br>
+        <p class="text-center"> Please <a href="{% url 'shop:allProdCat' %}"> Click Here </a> to continue shopping. </p>
+    </div>
+</div>
+{% else %}
+<div>
+    <div class="text-center">
+        <br>
+        <h1 class="text-center my-title">Your Shopping Cart</h1>
+        <br>
+    </div>
+</div>
+
+<div class="row mx-auto">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-6 text-center">
+       <table class="table my_custom_table">
+           <thead class="my_custom_thead">
+           <tr>
+               <th colspan="5" style="background-color: #98f5d6!important; background: linear-gradient(to top right, #BBDBBE 0%, #deebdd 100%);">
+                   Your Items
+               </th>
+           </tr>
+           </thead>
+           <tbody>
+           {% for cart_item in cart_items %}
+           <tr>
+               <td>
+                   <a href="cart_item.product.get_absolute-url"><img src="{{cart_item.product.image.url}}" style="width:200px; height:360;" alt="" class="float-left rounded custom_image"></a>
+               </td>
+               <td class="text-left">
+                   <b>{{cart_item.product.name}}</b>
+                   <br>
+                   SKU: {{cart_item.product.id}}
+                   <br>
+                   Price: &#8377; <ins>{{cart_item.product.price}}</ins>
+                   <br>
+                   Qty: <strong>{{cart_item.quantity}}</strong> x {{cart_item}}
+               </td>
+               <td>
+                   &#8377; <ins><mark>{{cart_item.sub_total}}</mark></ins>
+               </td>
+               {% if cart_item.quality < cart_item.product.stock %}
+               <br>
+               <br>
+               <td>
+                    <a href="{% url 'cart:add_cart' cart_item.product.id %}" class="custom_a"><i class="fa fa-plus custom_icon"></i></a>
+                    <a href="{% url 'cart:cart_remove' cart_item.product.id %}" class="custom_a"><i class="fa fa-minus custom_icon"></i></a>
+                    <a href="{% url 'cart:full_remove' cart_item.product.id %}" class="custom_a"><i class="fa fa-trash custom_icon"></i></a>
+               </td>
+               {% else %}
+               <td>
+                     <a href="{% url 'cart:add_cart' cart_item.product.id %}" class="custom_a"><i class="fa fa-plus custom_icon"></i></a>
+                   &nbsp;&nbsp;<a href="{% url 'cart:cart_remove' cart_item.product.id %}" class="custom_a"><i class="fa fa-minus custom_icon"></i></a>
+                   &nbsp;&nbsp;<a href="{% url 'cart:full_remove' cart_item.product.id %}" class="custom_a"><i class="fa fa-trash custom_icon"></i></a>
+               </td>
+           </tr>
+           {% endif %}
+
+           {% endfor %} <!--Line 41-->
+           </tbody>
+       </table>
+    </div>
+    <div class="col-12 col-sm-12 col-md-12 col-lg-6 text-center">
+        <table class="table my_custom_table">
+            <thead class="my_custom_thead">
+            <tr>
+                <th style="background-color: #98f5d6!important; background: linear-gradient(to top right, #95C3BE 0%, #deebdd 100%);">
+                    CheckOut
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    Please review your shopping cart items before proceeding with order payment
+                </td>
+            </tr>
+            <!--code for total $-->
+            <tr>
+                <td class="text-left">
+                    Your Total Is: <strong>{{total}}</strong>
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+            <div class="mx-auto">
+                <a href="{% url 'shop:allProdCat' %}" style="background:linear-gradient(to top right, #03c8a8 0%, #000000 100%);" class="btn btn-secondary btn-block my_custom_button">Continue Shopping</a>
+            </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

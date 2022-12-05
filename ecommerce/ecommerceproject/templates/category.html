@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+    {% if category %}
+        {{category.description | truncatewords:155}}
+    {% else %}
+        welcome to webz cart,the cart you need.
+    {% endif %}
+{% endblock %}
+
+{% block title %}
+    {% if category %}
+        {{category.description}} - webz cart
+    {% else %}
+        see our new collections - webz cart
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+{% if category %}
+<div>
+    <div class="row my_row_class">
+        <div class="mx-auto" >
+        <p><a class="btn btn-dark" href="{% url 'shop:allProdCat' %}" >Our Product Collections</a></p>
+    </div>
+        </div><!--mx auto div's-->
+</div>
+
+{% endif %}
+
+<div class="mx_auto">
+    {% if category %}
+    <img class="my_image" style="width:1300px; height:650px;" src="{{category.image.url}}" alt="{{category.name}}">
+</div>
+<br>
+
+<div>
+    <h1 class="text-center my_title" >{{category.name}}</h1>
+    <p class="text-justify" >{{category.description}}:</p>
+</div>
+    {% else %}
+    <div>
+        <img class="my_image my_image_padding" src="{% static 'img/banner.png' %}" style="width:1300px; height 250px; padding:25px 25px;" alt="our products(banner)">
+    </div>
+<br>
+
+<div>
+    <h1 class="text-center my_title" style="font-size: 25px;" > webzcart collections</h1>
+    <p style="padding:15px 15px 15px 15px;" class="text-justify" > webzcart is an initative e-commerce platform which offers all tech-products in one site for you</p>
+</div>
+{% endif %}
+
+<div class="container">
+    <div class="row mx_auto">
+        {% for product in products  %}
+        <div class="my_bottom_margin col-9 col-sm-12 col-md-4 col-lg-4">
+            <div class="card text-center" style="width:400px; height:440px; padding:15px 15px 15px 15px; margin:10px; background: linear-gradient(to left , #f5f7fa 0%, #F5F7FA 100%);">
+                <a href="{{product.get_url}}"><img style="width:340px; " src="{{product.image.url}}" alt="{{product.name}}"></a>
+                <div class="card-body" style="padding:25px 20px 25px 20px;" >
+                    <h4><b>{{product.name}}</b></h4>
+                    <p>&#8377; {{product.price}}</p>
+                </div>
+            </div>
+        </div><!--after for loop-->
+        {% endfor %}
+    </div><!--before for loop-->
+    <div class="mx-auto">
+        {% if products.paginator.num_pages > 1 %}
+        <hr>
+        <div class="text-center">
+            {% for pg in products.paginator.page_range %}
+            <a href="?page={{pg}}"  class="btn btn-light btn-sm {%if products.number == pg %} active {% endif %}">{{pg}}</a>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+
+    <br>
+
+</div>
+{% endblock %} <!--line 19-->

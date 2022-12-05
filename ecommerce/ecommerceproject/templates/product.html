@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+    {{product.description | truncatewords:155}}
+{% endblock %}
+
+{% block title %}
+    {% if category %}
+    {{product.name}}-webz cart
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="row my_prod_row_class">
+    <div class="mx_auto">
+        <p><a class="btn btn-dark btn-sm" href="{% url 'shop:allProdCat'%}">Home</a> | <a class="btn btn-dark btn-sm" href="{{product.category.get_url}}">{{product.category}}</a> | <p class="btn btn-dark btn-sm"> {{product.name}}</p> </p>
+    </div>
+</div>
+<div class="container">
+<br>
+
+<div class="row"> <!--1-->
+    <div class="col-12 col-sm-12 col-md-12 col-lg-6 text-center"> <!--2-->
+        <div style="min-width:18rem;"> <!--3-->
+            <img style="width:320px; height:auto; background: linear-gradient(to left , #f5f7fa 0%, #F5F7FA 100%);" src="{{product.image.url}}" alt="{{product.name}}">
+        </div> <!--3-->
+    </div> <!--2-->
+
+    <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+        <div>
+            <h1 class="my_prod_title"><b>{{product.name}}</b></h1>
+            <p><mark>&#8377; {{product.price}}</mark></p>
+            <p class="my_title">Product Description:</p>
+            <p class="text-justify my_prod_text">{{product.description}}</p>
+            {% if product.stock <= 0%}
+            <p class="text-justify my_prod_text"><b><ins>Out Of Stock</ins></b></p>
+            {% else %}
+            <a class="btn btn-secondary" href="{% url 'cart:add_cart' product.id %}">Add to Cart</a>
+            {% endif %}
+        </div>
+    </div>
+
+</div> <!--3-->
+</div>
+{% endblock %}

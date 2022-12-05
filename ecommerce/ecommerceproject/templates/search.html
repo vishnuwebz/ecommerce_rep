@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+     We have variety of mobile phones and smartphones that you need.
+{% endblock %}
+{% block title %}
+    Search
+{% endblock %}
+{% block content %}
+<div>
+    <p class="text-center my_search_text">You have searched for : <b> "{{query}}" </p>
+</div>
+
+<div class="container">
+    <div class="row mx_auto">
+        {% for item in products %}
+        <div class="my_bottom_margin col-9 col-sm-12  col-md-4 col-lg-4">
+            <div class="card text-center" style="width:400px; height:440px; padding:15px 15px 15px 15px; margin:10px;">
+                <a href="{{item.get_url}}"><img style="width:320px; height:320px;" class="card-img-top my-image" src="{{item.image.url}}"alt="{{item.name}}"></a>
+                <div class="card-body">
+                    <h4>{{item.name}}</h4>
+                    <p>Price : &#8377; {{item.price}}</p>
+
+                    <br><br><br><br><br><br><br><br><br><br>
+                </div>
+            </div>
+        </div>
+
+
+
+    {% empty %}
+        <div class="row mx-auto">
+            <p class="text-center my_search_text">0 results found</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
